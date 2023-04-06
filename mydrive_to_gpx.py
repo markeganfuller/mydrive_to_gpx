@@ -11,9 +11,12 @@ def tomtom_to_gpx(place):
     """Convert tomtom place to GPXWaypoint."""
     # Its a Java timestamp with extra digits
     time = place['value']['favoritesInterop']['creation'] // 1000
+    # TomTom Lat/Longs are whole numbers
+    latitude = place['value']['location']['pointPosition']['latitude'] / 1000000
+    longitude = place['value']['location']['pointPosition']['longitude'] / 1000000
     gpx_waypoint = gpxpy.gpx.GPXWaypoint(
-        latitude=place['value']['location']['pointPosition']['latitude'],
-        longitude=place['value']['location']['pointPosition']['longitude'],
+        latitude=latitude,
+        longitude=longitude,
         time=datetime.datetime.fromtimestamp(time),
         name=place['value']['metadata']['name']
     )
